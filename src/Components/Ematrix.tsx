@@ -226,14 +226,8 @@ type ColumnProps = {
 function Column({ title, headingColor, column, cards, setCards }: ColumnProps) {
   const [active, setActive] = useState(false);
 
-  function handleDragStart(
-    e: {
-      dataTransfer: { setData: (arg0: string, arg1: any) => void };
-      target: any;
-    },
-    card: { id: any }
-  ) {
-    e.dataTransfer.setData("cardId", card.id);
+  function handleDragStart(e: React.DragEvent<HTMLDivElement>, card: CardType) {
+    e.dataTransfer?.setData("cardId", card.id);
   }
 
   function handleDragOver(e: React.DragEvent<HTMLDivElement>) {
@@ -287,12 +281,10 @@ function Column({ title, headingColor, column, cards, setCards }: ColumnProps) {
     clearHighlights();
   }
 
-  function handleDragEnd(e: {
-    dataTransfer: { getData: (arg0: string) => any };
-  }) {
+  function handleDragEnd(e: React.DragEvent<HTMLDivElement>) {
     setActive(false);
     clearHighlights();
-    const cardId = e.dataTransfer.getData("cardId");
+    const cardId = e.dataTransfer?.getData("cardId");
     const indicators = getIndicators();
     const { element } = getNearestIndicator(e, indicators);
     const before = element.dataset.before || "-1";
