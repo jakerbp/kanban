@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import {
   BsCheckSquare,
   BsPencilSquare,
   BsQuestionSquare,
+  BsThreeDots,
+  BsThreeDotsVertical,
   BsTrash3Fill,
   BsXSquare,
 } from "react-icons/bs";
@@ -21,7 +23,9 @@ export default function Ematrix() {
             onClick={() => setIsHelpHidden(!isHelpHidden)}
             className="px-4 py-2 text-xs h-8 transition-colors text-nowrap rounded text-gray-200  hover:text-gray-400 flex justify-center items-center gap-2"
           >
-            <span><i>{`${isHelpHidden ? "Show" : "Hide"} Help`}</i></span>
+            <span>
+              <i>{`${isHelpHidden ? "Show" : "Hide"} Help`}</i>
+            </span>
             {isHelpHidden ? (
               <BsQuestionSquare size={14} />
             ) : (
@@ -30,6 +34,8 @@ export default function Ematrix() {
           </button>
         </div>
         <motion.div
+        layout
+        layoutId="help"
           className={`container mx-auto px-4 mt-4 overflow-hidden text-gray-200 ${
             isHelpHidden ? "h-0" : "h-auto"
           }`}
@@ -44,8 +50,8 @@ export default function Ematrix() {
             created by President Dwight D. Eisenhower. It is a visual
             decision-making tool that helps you prioritize tasks based on two
             key criteria: urgency and importance. It's perfect when your task
-            list is too overwhelming and you need to make tough calls about what to
-            focus on first, what can wait, and what to let go of entirely.
+            list is too overwhelming and you need to make tough calls about what
+            to focus on first, what can wait, and what to let go of entirely.
           </p>
 
           <h3 className="text-xl font-semibold mb-6 text-white">
@@ -78,12 +84,17 @@ export default function Ematrix() {
             </li>
           </ol>
           <p className="mb-6 font-light text-sm">
-           This web app is <strong><i>free to use</i></strong> and saves your tasks in your browser!
+            This web app is{" "}
+            <strong>
+              <i>free to use</i>
+            </strong>{" "}
+            and saves your tasks in your browser!
           </p>
           <p className="mb-6 font-light text-sm">
             Simply create tasks by clicking "Add card" and drag & drop them into
             the right quadrant. Need to make changes? Hit the edit icon on a
-            task. Completed a task? Drag it to the trash area! Want to clear a whole quadrant? Click "Clear all".
+            task. Completed a task? Drag it to the trash area! Want to clear a
+            whole quadrant? Click "Clear all".
           </p>
 
           <p className="text-lg font-semibold text-center text-white">
@@ -97,35 +108,33 @@ export default function Ematrix() {
 }
 
 function Board() {
-    const [hasChecked, setHasChecked] = useState(false)
-    const [cards, setCards] = useState([]);
+  const [hasChecked, setHasChecked] = useState(false);
+  const [cards, setCards] = useState([]);
 
-useEffect(()=>{
-    hasChecked && localStorage.setItem("cards",JSON.stringify(cards))
-},[cards])
+  useEffect(() => {
+    hasChecked && localStorage.setItem("cards", JSON.stringify(cards));
+  }, [cards]);
 
-useEffect(()=>{
-const cardData = localStorage.getItem("cards") 
-setCards(cardData ? JSON.parse(cardData) : DEFAULT_CARDS)
-setHasChecked(true)
-},[])
+  useEffect(() => {
+    const cardData = localStorage.getItem("cards");
+    setCards(cardData ? JSON.parse(cardData) : DEFAULT_CARDS);
+    setHasChecked(true);
+  }, []);
 
   return (
     <>
-      <div className="sm:grid grid-rows-7 grid-cols-2 sm:h-screen h-full w-full space-y-8 sm:space-y-0 sm:gap-4 overflow-auto p-4 sm:p-8 ">
-        <motion.div className="row-span-3 h-full" layout>
+      <div className="sm:grid grid-rows-7 grid-cols-2 sm:h-screen h-full w-full space-y-8 sm:space-y-0 sm:gap-4 overflow-auto p-4 sm:p-8 pb-16">
+        <div className="row-span-3 h-full" >
           <Column
-            title="Importand and Urgent"
+            title="Important and Urgent"
             headingColor="text-red-400"
             column="Imp-Urg"
             cards={cards}
             setCards={setCards}
           />
-        </motion.div>
-        <motion.div className="col-span-2 row-span-1 sm:hidden" layout>
-          <DeleteBox setCards={setCards} />
-        </motion.div>
-        <motion.div className="row-span-3 h-full" layout>
+        </div>
+
+        <div className="row-span-3 h-full" >
           <Column
             title="Important"
             headingColor="text-orange-400"
@@ -133,11 +142,9 @@ setHasChecked(true)
             cards={cards}
             setCards={setCards}
           />
-        </motion.div>
-        <motion.div className="col-span-2 row-span-1 sm:hidden" layout>
-          <DeleteBox setCards={setCards} />
-        </motion.div>
-        <motion.div className="row-span-3 h-full" layout>
+        </div>
+
+        <div className="row-span-3 h-full" >
           <Column
             title="Urgent"
             headingColor="text-yellow-400"
@@ -145,11 +152,9 @@ setHasChecked(true)
             cards={cards}
             setCards={setCards}
           />
-        </motion.div>
-        <motion.div className="col-span-2 row-span-1 sm:hidden" layout>
-          <DeleteBox setCards={setCards} />
-        </motion.div>
-        <motion.div className="row-span-3 h-full" layout>
+        </div>
+
+        <div className="row-span-3 h-full" >
           <Column
             title="Not Important or Urgent"
             headingColor="text-green-400"
@@ -157,16 +162,16 @@ setHasChecked(true)
             cards={cards}
             setCards={setCards}
           />
-        </motion.div>
-        <motion.div className="col-span-2 row-span-1" layout>
+        </div>
+        <div className="col-span-2 row-span-1 hidden sm:flex" >
           <DeleteBox setCards={setCards} />
-        </motion.div>
+        </div>
       </div>
     </>
   );
 }
 
-function DeleteBox({ setCards }:{setCards:Function}) {
+function DeleteBox({ setCards }: { setCards: Function }) {
   const [active, setActive] = useState(false);
 
   function handleDragOver(e: { preventDefault: () => void }) {
@@ -208,12 +213,12 @@ function DeleteBox({ setCards }:{setCards:Function}) {
 }
 
 type CardType = {
-    title: string;
-    id: string;
-    column: string;
-    handleDragStart: Function;
-    setCards: Function;
-  }
+  title: string;
+  id: string;
+  column: string;
+  handleDragStart: Function;
+  setCards: Function;
+};
 
 type ColumnProps = {
   title: string;
@@ -236,7 +241,7 @@ function Column({ title, headingColor, column, cards, setCards }: ColumnProps) {
     setActive(true);
   }
 
-  function highlightIndicator(e:React.DragEvent<HTMLDivElement>) {
+  function highlightIndicator(e: React.DragEvent<HTMLDivElement>) {
     const indicators = getIndicators();
     clearHighlights(indicators);
     const nearest = getNearestIndicator(e, indicators);
@@ -250,13 +255,16 @@ function Column({ title, headingColor, column, cards, setCards }: ColumnProps) {
     });
   }
 
-  function getNearestIndicator(e: React.DragEvent<HTMLDivElement>, indicators: HTMLElement[]): { offset: number; element: HTMLElement } {
+  function getNearestIndicator(
+    e: React.DragEvent<HTMLDivElement>,
+    indicators: HTMLElement[]
+  ): { offset: number; element: HTMLElement } {
     const DISTANCE_OFFSET = 25;
     const nearest = indicators.reduce<{ offset: number; element: HTMLElement }>(
       (closest, child) => {
         const box = child.getBoundingClientRect();
         const offset = e.clientY - (box.top + DISTANCE_OFFSET);
-  
+
         if (offset < 0 && offset > closest.offset) {
           return { offset: offset, element: child };
         } else {
@@ -270,7 +278,6 @@ function Column({ title, headingColor, column, cards, setCards }: ColumnProps) {
     );
     return nearest;
   }
-  
 
   function getIndicators(): HTMLElement[] {
     return Array.from(document.querySelectorAll(`[data-column="${column}"]`));
@@ -320,7 +327,6 @@ function Column({ title, headingColor, column, cards, setCards }: ColumnProps) {
       </div>
       <div
         onDragOver={handleDragOver}
-        
         onDragLeave={handleDragLeave}
         onDrop={handleDragEnd}
         className={`column-inner h-[calc(100%-40px)] w-full transition-colors overflow-x-hidden overflow-y-auto pr-2 ${
@@ -342,10 +348,10 @@ function Column({ title, headingColor, column, cards, setCards }: ColumnProps) {
   );
 }
 
-function AddCard({ column, setCards }:{column:string, setCards:Function}) {
+function AddCard({ column, setCards }: { column: string; setCards: Function }) {
   const [text, setText] = useState("");
   const [adding, setAdding] = useState(false);
-  
+
   function handleSubmit(e: { preventDefault: () => void }) {
     e.preventDefault();
     if (!text.trim().length) return;
@@ -358,16 +364,18 @@ function AddCard({ column, setCards }:{column:string, setCards:Function}) {
     setAdding(false);
   }
 
-  function handleClear(){
-    setCards((currentCards: any) => currentCards.filter((card: any)=>{
-        if(card.column !== column) return card
-    }));
+  function handleClear() {
+    setCards((currentCards: any) =>
+      currentCards.filter((card: any) => {
+        if (card.column !== column) return card;
+      })
+    );
   }
 
   return (
     <>
       {adding ? (
-        <motion.form layout onSubmit={handleSubmit}>
+        <motion.form layout layoutId="form" onSubmit={handleSubmit}>
           <textarea
             placeholder="Add a new task..."
             autoFocus
@@ -385,12 +393,12 @@ function AddCard({ column, setCards }:{column:string, setCards:Function}) {
               type="submit"
               className="px-4 py-2 text-xs transition-colors rounded bg-gray-200 text-gray-900 hover:bg-gray-400 flex justify-center items-center gap-2"
             >
-              <span>Save card</span>
+              <span>Save task</span>
             </button>
           </div>
         </motion.form>
       ) : (
-        <motion.div layout className="flex justify-between">
+        <motion.div layout layoutId='addclear' className="flex justify-between">
           <button
             onClick={handleClear}
             name="Clear all cards"
@@ -403,7 +411,7 @@ function AddCard({ column, setCards }:{column:string, setCards:Function}) {
             name="Add card"
             className="px-4 py-2 text-xs transition-colors rounded bg-gray-200 text-gray-900 hover:bg-gray-400 flex justify-center items-center gap-2"
           >
-            <span>Add card</span>
+            <span>Add task</span>
           </button>
         </motion.div>
       )}
@@ -411,16 +419,11 @@ function AddCard({ column, setCards }:{column:string, setCards:Function}) {
   );
 }
 
-function Card({
-  title,
-  id,
-  column,
-  handleDragStart,
-  setCards,
-}: CardType) {
+function Card({ title, id, column, handleDragStart, setCards }: CardType) {
   const [editing, setEditing] = useState(false);
   const [text, setText] = useState(title);
   const [newText, setNewText] = useState(text);
+  const [isContextOpen, setIsContextOpen] = useState(false);
 
   function handleClick() {
     setEditing(!editing);
@@ -450,12 +453,65 @@ function Card({
     setEditing(false);
   }
 
+  function handleDelete(id: string) {
+    setCards((currentCards: any) =>
+      currentCards.filter((card: any) => {
+        if (card.id !== id) return card;
+      })
+    );
+  }
+
+  function handleMove(column: string, id: string) {
+    setCards((currentCards: any) => {
+      let copy = [...currentCards];
+      let cardToTransfer = copy.find((card)=>card.id === id)
+      if (!cardToTransfer) return;
+      cardToTransfer = {...cardToTransfer, column}
+      copy = copy.filter((card)=>card.id !== id)
+      copy.push(cardToTransfer)
+      return copy
+    });
+  }
+
+  const OPTIONS = [
+    {
+      column: "Imp-Urg",
+      color: "bg-red-400",
+      tcolor: "text-red-900",
+      text: "Move to Important and Urgent",
+    },
+    {
+      column: "Imp",
+      color: "bg-orange-400",
+      tcolor: "text-orange-900",
+      text: "Move to Important",
+    },
+    {
+      column: "Urg",
+      color: "bg-yellow-400",
+      tcolor: "text-yellow-800",
+      text: "Move to Urgent",
+    },
+    {
+      column: "Del",
+      color: "bg-green-400",
+      tcolor: "text-green-800",
+      text: "Move to Not Important or Urgent",
+    },
+    {
+      column: "delete",
+      color: "border-gray-400 border-2",
+      tcolor: "text-gray-400",
+      text: "Delete Task",
+    },
+  ];
+
   return (
     <>
       <DropIndicator beforeId={id} column={column} />
       <motion.div
         layout
-        layoutId={id}
+        layoutId={id+'drag'}
         draggable={!editing}
         onDragStart={(e) => handleDragStart(e, { title, id, column })}
         className={`cursor-grab active:cursor-grabbing rounded border px-4 py-2 ${
@@ -464,30 +520,31 @@ function Card({
             : "border-gray-700  active:bg-gray-700 active:shadow-none active:border-gray-800"
         } shadow-sm shadow-gray-950 bg-gray-800`}
       >
-        <div className="flex justify-between items-center">
-          {!editing && <p className="text-sm text-gray-200">{title}</p>}
-          {editing && (
-            <form
-              className="w-full flex gap-1 items-center text-gray-200"
-              onSubmit={(e) => handleSubmit(e)}
-            >
-              <input
-                className="bg-gray-800 w-full outline-none p-0 m-0 text-sm"
-                autoFocus
-                type="text"
-                value={text}
-                onChange={(e) => setText(e.target.value)}
-              />
-              <button
-                className="hover:bg-gray-700 rounded p-1 ml-2 mr-1"
-                hidden={!editing}
-                type="submit"
-                name="Save edit"
+       
+        <motion.div layout layoutId={id+'main'} className="flex justify-between items-center">
+            {!editing && <p className="text-sm text-gray-200">{title}</p>}
+            {editing && (
+              <form
+                className="w-full flex gap-1 items-center text-gray-200"
+                onSubmit={(e) => handleSubmit(e)}
               >
-                <BsCheckSquare size={18} />
-              </button>
-            </form>
-          )}
+                <textarea
+                  className="bg-gray-800 w-full resize-none outline-none p-0 m-0 text-sm"
+                  autoFocus
+                  value={text}
+                  onChange={(e) => setText(e.target.value)}
+                />
+                <button
+                  className="hover:bg-gray-700 rounded p-1 ml-2 mr-1"
+                  hidden={!editing}
+                  type="submit"
+                  name="Save edit"
+                >
+                  <BsCheckSquare size={18} />
+                </button>
+              </form>
+            )}
+
           <div className="flex gap-1 items-center text-gray-200">
             <button
               className=" p-1 hover:bg-gray-700 rounded"
@@ -506,8 +563,48 @@ function Card({
             >
               <BsXSquare size={18} />
             </button>
+
+            <button
+              className="hover:bg-gray-700 rounded p-1"
+              onClick={() => setIsContextOpen(!isContextOpen)}
+              name="Options"
+            >
+              {isContextOpen ? (
+                <BsThreeDots size={18} />
+              ) : (
+                <BsThreeDotsVertical size={18} />
+              )}
+            </button>
           </div>
-        </div>
+        </motion.div>
+        <AnimatePresence>
+        {isContextOpen && (
+          <motion.div 
+          layout 
+          layoutId={id+'context'}
+          initial={{ scaleY: 0 }}
+          animate={{ scaleY: 1 }} 
+          style={{ originY: 0 }}
+          className="flex flex-col gap-2 mt-2">
+            {OPTIONS.map(
+              (option) =>
+                option.column !== column && (
+                  <button
+                  key={id+option.column}
+                    className={`${option.color}  hover:opacity-70 ${option.tcolor} text-sm rounded px-4 py-2`}
+                    onClick={() =>
+                      option.column === "delete"
+                        ? handleDelete(id)
+                        : handleMove(option.column, id)
+                    }
+                  >
+                    {option.text}
+                  </button>
+                )
+            )}
+          </motion.div>
+        )}
+      </AnimatePresence>
       </motion.div>
     </>
   );
@@ -532,12 +629,24 @@ function DropIndicator({
 }
 
 const DEFAULT_CARDS = [
-    { "title": "Resolve critical server outage immediately", "id": "1", "column": "Imp-Urg" },
-    { "title": "Prepare for tomorrow's client presentation", "id": "2", "column": "Imp-Urg" },
-    { "title": "Respond to CEO's urgent email", "id": "3", "column": "Imp-Urg" },
-    { "title": "Update team on project milestones", "id": "4", "column": "Imp" },
-    { "title": "Plan next quarter's team objectives", "id": "5", "column": "Imp" },
-    { "title": "Review and approve expense reports", "id": "6", "column": "Urg" },
-    { "title": "Restock office supplies before inventory check tomorrow", "id": "7", "column": "Urg" },
-    { "title": "Assign new intern onboarding tasks", "id": "8", "column": "Del" }
-  ]
+  {
+    title: "Resolve critical server outage immediately",
+    id: "1",
+    column: "Imp-Urg",
+  },
+  {
+    title: "Prepare for tomorrow's client presentation",
+    id: "2",
+    column: "Imp-Urg",
+  },
+  { title: "Respond to CEO's urgent email", id: "3", column: "Imp-Urg" },
+  { title: "Update team on project milestones", id: "4", column: "Imp" },
+  { title: "Plan next quarter's team objectives", id: "5", column: "Imp" },
+  { title: "Review and approve expense reports", id: "6", column: "Urg" },
+  {
+    title: "Restock office supplies before inventory check tomorrow",
+    id: "7",
+    column: "Urg",
+  },
+  { title: "Assign new intern onboarding tasks", id: "8", column: "Del" },
+];
