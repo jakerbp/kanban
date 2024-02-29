@@ -528,9 +528,10 @@ function Card({ title, id, column, handleDragStart, setCards }: CardType) {
                 className="w-full flex gap-1 items-center text-gray-200"
                 onSubmit={(e) => handleSubmit(e)}
               >
-                <textarea
+                <input
                   className="bg-gray-800 w-full resize-none outline-none p-0 m-0 text-sm"
                   autoFocus
+                  type="text"
                   value={text}
                   onChange={(e) => setText(e.target.value)}
                 />
