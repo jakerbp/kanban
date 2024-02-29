@@ -12,7 +12,7 @@ export default function Ematrix() {
   const [isHelpHidden, setIsHelpHidden] = useState(true);
   return (
     <>
-      <div className="h-screen w-full bg-gray-900">
+      <div className="h-full w-full bg-gray-900">
         <div className="flex w-full justify-between items-center">
           <h1 className="m-4 font-bold text-3xl text-white">
             Eisenhower Matrix
@@ -112,8 +112,8 @@ setHasChecked(true)
 
   return (
     <>
-      <div className="sm:grid grid-rows-7 grid-cols-2 h-full w-full space-y-8 sm:space-y-0 sm:gap-4 overflow-auto p-4 sm:p-8 ">
-        <motion.div className="row-span-3 overflow-hidden h-full" layout>
+      <div className="sm:grid grid-rows-7 grid-cols-2 sm:h-screen h-full w-full space-y-8 sm:space-y-0 sm:gap-4 overflow-auto p-4 sm:p-8 ">
+        <motion.div className="row-span-3 h-full" layout>
           <Column
             title="Importand and Urgent"
             headingColor="text-red-400"
@@ -125,7 +125,7 @@ setHasChecked(true)
         <motion.div className="col-span-2 row-span-1 sm:hidden" layout>
           <DeleteBox setCards={setCards} />
         </motion.div>
-        <motion.div className="row-span-3" layout>
+        <motion.div className="row-span-3 h-full" layout>
           <Column
             title="Important"
             headingColor="text-orange-400"
@@ -137,7 +137,7 @@ setHasChecked(true)
         <motion.div className="col-span-2 row-span-1 sm:hidden" layout>
           <DeleteBox setCards={setCards} />
         </motion.div>
-        <motion.div className="row-span-3" layout>
+        <motion.div className="row-span-3 h-full" layout>
           <Column
             title="Urgent"
             headingColor="text-yellow-400"
@@ -149,7 +149,7 @@ setHasChecked(true)
         <motion.div className="col-span-2 row-span-1 sm:hidden" layout>
           <DeleteBox setCards={setCards} />
         </motion.div>
-        <motion.div className="row-span-3" layout>
+        <motion.div className="row-span-3 h-full" layout>
           <Column
             title="Not Important or Urgent"
             headingColor="text-green-400"
