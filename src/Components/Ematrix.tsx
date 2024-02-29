@@ -309,7 +309,7 @@ function Column({ title, headingColor, column, cards, setCards }: ColumnProps) {
 
   const filteredCards = cards.filter((card) => card.column === column);
   return (
-    <div className="w-half h-full shrink-0 overflow-scroll">
+    <div className="w-half h-full shrink-0 overflow-x-hidden overflow-y-auto">
       <div className="sticky top-0 z-10 flex items-center justify-between pb-2 mb-2 shadow-gray-900 shadow-md bg-gray-900">
         <h3 className={`font-semibold ${headingColor} `}>{title}</h3>
         <span
@@ -320,6 +320,7 @@ function Column({ title, headingColor, column, cards, setCards }: ColumnProps) {
       </div>
       <div
         onDragOver={handleDragOver}
+        
         onDragLeave={handleDragLeave}
         onDrop={handleDragEnd}
         className={`h-full w-full transition-colors ${
