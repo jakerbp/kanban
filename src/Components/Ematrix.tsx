@@ -113,7 +113,7 @@ setHasChecked(true)
   return (
     <>
       <div className="sm:grid grid-rows-7 grid-cols-2 h-full w-full space-y-8 sm:space-y-0 sm:gap-4 overflow-scroll p-4 sm:p-8 ">
-        <motion.div className="row-span-3 " layout>
+        <motion.div className="row-span-3 overflow-hidden h-full" layout>
           <Column
             title="Importand and Urgent"
             headingColor="text-red-400"
@@ -309,7 +309,7 @@ function Column({ title, headingColor, column, cards, setCards }: ColumnProps) {
 
   const filteredCards = cards.filter((card) => card.column === column);
   return (
-    <div className="w-half h-full shrink-0 overflow-x-hidden overflow-y-auto">
+    <div className="column w-half h-full shrink-0 ">
       <div className="sticky top-0 z-10 flex items-center justify-between pb-2 mb-2 shadow-gray-900 shadow-md bg-gray-900">
         <h3 className={`font-semibold ${headingColor} `}>{title}</h3>
         <span
@@ -323,7 +323,7 @@ function Column({ title, headingColor, column, cards, setCards }: ColumnProps) {
         
         onDragLeave={handleDragLeave}
         onDrop={handleDragEnd}
-        className={`h-full w-full transition-colors ${
+        className={`column-inner h-[calc(100%-40px)] w-full transition-colors overflow-x-hidden overflow-y-auto pr-2 ${
           active ? "bg-gray-800/50" : ""
         }`}
       >
