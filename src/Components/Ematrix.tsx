@@ -112,7 +112,7 @@ setHasChecked(true)
 
   return (
     <>
-      <div className="sm:grid grid-rows-7 grid-cols-2 h-full w-full space-y-8 sm:space-y-0 sm:gap-4 overflow-scroll p-4 sm:p-8 ">
+      <div className="sm:grid grid-rows-7 grid-cols-2 h-full w-full space-y-8 sm:space-y-0 sm:gap-4 overflow-auto p-4 sm:p-8 ">
         <motion.div className="row-span-3 overflow-hidden h-full" layout>
           <Column
             title="Importand and Urgent"
