@@ -375,7 +375,7 @@ function AddCard({ column, setCards }: { column: string; setCards: Function }) {
   return (
     <>
       {adding ? (
-        <motion.form layout layoutId="form" onSubmit={handleSubmit}>
+        <motion.form layout onSubmit={handleSubmit}>
           <textarea
             placeholder="Add a new task..."
             autoFocus
@@ -398,7 +398,7 @@ function AddCard({ column, setCards }: { column: string; setCards: Function }) {
           </div>
         </motion.form>
       ) : (
-        <motion.div layout layoutId='addclear' className="flex justify-between">
+        <motion.div layout className="flex justify-between">
           <button
             onClick={handleClear}
             name="Clear all cards"
