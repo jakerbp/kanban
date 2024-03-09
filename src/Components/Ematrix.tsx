@@ -58,39 +58,39 @@ export default function Ematrix() {
             How it works:
           </h3>
           <ol className="list-decimal pl-4 mb-6 font-light">
-            <li className="mb-2 ml-4 text-sm">
+            <li className="mb-2 ml-8 text-sm">
               <strong className="text-red-400">
                 Important and Urgent <i>(Do First)</i>:
               </strong>{" "}
               Tackle these tasks right away!
             </li>
-            <li className="mb-2 ml-4 text-sm">
+            <li className="mb-2 ml-8 text-sm">
               <strong className="text-orange-400">
                 Important but Not Urgent <i>(Schedule)</i>:
               </strong>{" "}
               Plan a time to do these later.
             </li>
-            <li className="mb-2 ml-4 text-sm">
+            <li className="mb-2 ml-8 text-sm">
               <strong className="text-yellow-400">
                 Urgent but Not Important <i>(Delegate)</i>:
               </strong>{" "}
               Let someone else handle this.
             </li>
-            <li className="mb-2 ml-4 text-sm">
+            <li className="mb-2 ml-8 text-sm">
               <strong className="text-green-400">
                 Not Urgent and Not Important <i>(Delete)</i>:
               </strong>{" "}
               Get rid of these time-wasters.
             </li>
           </ol>
-          <p className="mb-6 font-light text-sm">
+          <p className="mb-6 ml-4 font-light text-sm">
             This web app is{" "}
             <strong>
               <i>free to use</i>
             </strong>{" "}
             and saves your tasks in your browser!
           </p>
-          <p className="mb-6 font-light text-sm">
+          <p className="mb-6 ml-4 font-light text-sm">
             Simply create tasks by clicking "Add card" and drag & drop them into
             the right quadrant. Need to make changes? Hit the edit icon on a
             task. Completed a task? Drag it to the trash area! Want to clear a
@@ -514,29 +514,29 @@ function Card({ title, id, column, handleDragStart, setCards }: CardType) {
         layoutId={id+'drag'}
         draggable={!editing}
         onDragStart={(e) => handleDragStart(e, { title, id, column })}
-        className={`cursor-grab active:cursor-grabbing rounded border px-4 py-2 ${
+        className={`cursor-grab active:cursor-grabbing rounded border px-2  ${
           editing
             ? "border-gray-200"
             : "border-gray-700  active:bg-gray-700 active:shadow-none active:border-gray-800"
-        } shadow-sm shadow-gray-950 bg-gray-800`}
+        } shadow-sm shadow-gray-950 bg-gray-800 transition-colors delay-75 ease-in-out`}
       >
        
-        <motion.div layout layoutId={id+'main'} className="flex justify-between items-center">
+        <motion.div layout layoutId={id+'main'} className="flex justify-between items-center px-2 my-2">
             {!editing && <p className="text-sm text-gray-200">{title}</p>}
             {editing && (
               <form
-                className="w-full flex gap-1 items-center text-gray-200"
+                className="w-full flex gap-1 items-center text-gray-200 "
                 onSubmit={(e) => handleSubmit(e)}
               >
                 <input
-                  className="bg-gray-800 w-full resize-none outline-none p-0 m-0 text-sm"
+                  className="bg-transparent w-full resize-none outline-none p-0 m-0 text-sm"
                   autoFocus
                   type="text"
                   value={text}
                   onChange={(e) => setText(e.target.value)}
                 />
                 <button
-                  className="hover:bg-gray-700 rounded p-1 ml-2 mr-1"
+                  className="hover:bg-gray-700 rounded p-2 ml-2 mr-1"
                   hidden={!editing}
                   type="submit"
                   name="Save edit"
@@ -548,7 +548,7 @@ function Card({ title, id, column, handleDragStart, setCards }: CardType) {
 
           <div className="flex gap-1 items-center text-gray-200">
             <button
-              className=" p-1 hover:bg-gray-700 rounded"
+              className=" p-2 hover:bg-gray-700 rounded"
               onClick={handleClick}
               hidden={editing}
               name="Edit"
@@ -557,7 +557,7 @@ function Card({ title, id, column, handleDragStart, setCards }: CardType) {
             </button>
 
             <button
-              className="hover:bg-gray-700 rounded p-1"
+              className="hover:bg-gray-700 rounded p-2"
               onClick={handleCancel}
               hidden={!editing}
               name="Cancel edit"
@@ -566,7 +566,7 @@ function Card({ title, id, column, handleDragStart, setCards }: CardType) {
             </button>
 
             <button
-              className="hover:bg-gray-700 rounded p-1"
+              className="hover:bg-gray-700 rounded p-2"
               onClick={() => setIsContextOpen(!isContextOpen)}
               name="Options"
             >
@@ -586,7 +586,7 @@ function Card({ title, id, column, handleDragStart, setCards }: CardType) {
           initial={{ scaleY: 0 }}
           animate={{ scaleY: 1 }} 
           style={{ originY: 0 }}
-          className="flex flex-col gap-2 mt-2">
+          className="flex flex-col gap-2 mt-2 px-2 pb-4 ">
             {OPTIONS.map(
               (option) =>
                 option.column !== column && (
